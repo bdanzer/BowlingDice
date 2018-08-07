@@ -1,0 +1,29 @@
+h1,
+h2,
+h3,
+p,
+span,
+a {
+    font-family: sans-serif;
+}
+
+a.btn {
+    background: black;
+    color: white;
+    padding: 15px 20px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.dice {
+    border: 1px solid black;
+    max-width: 64px;
+    margin: 5px;
+}
+.facePin {
+    border-color: purple;
+}
+.dice-wrap div {
+    float: left;
+    width: 50%;
+}

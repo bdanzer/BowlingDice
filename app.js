@@ -1,0 +1,1 @@
+BowlingDice.startGame();
