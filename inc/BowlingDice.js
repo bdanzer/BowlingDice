@@ -19,7 +19,6 @@ class BowlingDice {
         if (!this.round) {
             this.frames = 1;
         }
-
         document.getElementById('dice-frame').innerHTML = this.frames;
     }
 
@@ -31,7 +30,6 @@ class BowlingDice {
             this.round = 2;
             this.frames = 1 + this.frames;
         } 
-
         document.getElementById('dice-round').innerHTML = this.round;
     }
 
@@ -39,6 +37,10 @@ class BowlingDice {
     {
         var faceSpares = document.getElementsByClassName('faceSpare');
         var faceStrikes = document.getElementsByClassName('faceStrike');
+
+        if (this.round == 1 && faceStrikes.length) {
+            document.getElementById('message-spot').innerHTML = 'Strike';
+        }
 
         if (this.round == 1 && faceSpares.length) {
             BowlingDice.movePins(faceSpares);
@@ -57,13 +59,9 @@ class BowlingDice {
             this.spare = 3;
             this.blank = 4;
         } else {
-            this.strike = document.getElementsByClassName('classStrike');
-            this.spare = document.getElementsByClassName('classSpare');
-            this.blank = document.getElementsByClassName('classBlank');
-
-            this.strike = this.strike.length;
-            this.spare = this.spare.length;
-            this.blank = this.blank.length;
+            this.strike = document.getElementsByClassName('classStrike').length;
+            this.spare = document.getElementsByClassName('classSpare').length;
+            this.blank = document.getElementsByClassName('classBlank').length;
         }
     }
 
@@ -96,5 +94,6 @@ class BowlingDice {
         if (this.round == 1) {
             document.getElementById('pins-pen').innerHTML = null; 
         }
+        document.getElementById('message-spot').innerHTML = null;
     }
 }
