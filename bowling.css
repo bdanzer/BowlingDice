@@ -15,6 +15,54 @@ body {
     max-width: 900px;
     margin: auto;
 }
+.square {
+    height: 50px;
+    width: 50px;
+    background: white;
+    border: .5px solid;
+    position: relative;
+    display: inline-block;
+}
+.little-square {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+.little-square.left {
+    top: 0px;
+    left: 1px;
+}
+.little-square.right {
+    background: #efefef;
+    top: 0px;
+    right: 1px;
+}
+.wide-square {
+    position: absolute;
+    height: 24px;
+    width: 100%;
+    bottom: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.frames {
+    position: absolute;
+    top: -25px;
+    background: black;
+    color: white;
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding: 1px 0;
+    border: .5px solid black;
+    left: -.5px;
+}
 
 h1#message-spot {
     background: white;

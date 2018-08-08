@@ -6,20 +6,24 @@ class BowlingDice {
     {
         document.getElementById('roll-dice').addEventListener("click", e => { 
             e.preventDefault();
-            BowlingDice.setFrames();
+            BowlingDice.setFrame();
             BowlingDice.setRound();
             BowlingDice.setDice();
             BowlingDice.shuffle();
-            BowlingDice.readPins();
+            Scoreboard.readPins(this.frame, this.round);
+            Scoreboard.calculateScore();
         });
     }
 
-    static setFrames() 
+    static setFrame() 
     {
         if (!this.round) {
-            this.frames = 1;
+            this.frame = 1;
         }
-        document.getElementById('dice-frame').innerHTML = this.frames;
+        if (this.round == 2) {
+            this.frame = 1 + this.frame;
+        }
+        document.getElementById('dice-frame').innerHTML = this.frame;
     }
 
     static setRound() 
@@ -28,28 +32,8 @@ class BowlingDice {
             this.round = 1;
         } else if (this.round == 1) {
             this.round = 2;
-            this.frames = 1 + this.frames;
         } 
         document.getElementById('dice-round').innerHTML = this.round;
-    }
-
-    static readPins() 
-    {
-        var faceSpares = document.getElementsByClassName('faceSpare');
-        var faceStrikes = document.getElementsByClassName('faceStrike');
-
-        if (this.round == 1 && faceStrikes.length) {
-            document.getElementById('message-spot').innerHTML = 'Strike';
-        }
-
-        if (this.round == 1 && faceSpares.length) {
-            BowlingDice.movePins(faceSpares);
-        } else if (this.round == 2 && faceStrikes.length) {
-            BowlingDice.movePins(faceStrikes);
-        }
-
-        var faceBlanks = document.getElementsByClassName('faceBlank');
-        BowlingDice.movePins(faceBlanks);
     }
 
     static setDice() 
@@ -94,6 +78,5 @@ class BowlingDice {
         if (this.round == 1) {
             document.getElementById('pins-pen').innerHTML = null; 
         }
-        document.getElementById('message-spot').innerHTML = null;
     }
 }
