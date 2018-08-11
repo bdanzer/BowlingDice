@@ -4,6 +4,7 @@
 class BowlingDice {
     static startGame() 
     {
+        Scoreboard.init();
         document.getElementById('roll-dice').addEventListener("click", e => { 
             e.preventDefault();
             BowlingDice.setFrame();
@@ -11,7 +12,6 @@ class BowlingDice {
             BowlingDice.setDice();
             BowlingDice.shuffle();
             Scoreboard.readPins(this.frame, this.round);
-            Scoreboard.calculateScore();
         });
     }
 

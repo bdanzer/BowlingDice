@@ -3,6 +3,12 @@
  */
 
 class Scoreboard {
+    static init() 
+    {   
+        this.frames = {};
+        this.globalScore = 0;
+    }
+
     static generateFrame(iterator) 
     {
         var html = `
@@ -25,22 +31,20 @@ class Scoreboard {
             faceBlanks = document.querySelectorAll('#dice-game .faceBlank');
 
         if (round == 1) {
-            Scoreboard.generateFrame(frame);
+            this.generateFrame(frame);
             BowlingDice.movePins(faceSpares);
             if (faceStrikes.length) {
-                Scoreboard.writeScore(frame, 'X', 'left');
+                this.writeScore(frame, 'X', 'left');
                 BowlingDice.round++;
             } else {
-                Scoreboard.writeScore(frame, faceBlanks.length  + faceSpares.length, 'left');
+                this.writeScore(frame, faceBlanks.length  + faceSpares.length, 'left');
             }
-        }
-
-        if (round == 2) {
+        } else if (round == 2) {
             BowlingDice.movePins(faceStrikes);
             if (faceSpares.length) {
-                Scoreboard.writeScore(frame, '/', 'right');
+                this.writeScore(frame, '/', 'right');
             } else {
-                Scoreboard.writeScore(frame, faceBlanks.length + faceStrikes.length, 'right');
+                this.writeScore(frame, faceBlanks.length + faceStrikes.length, 'right');
             }
         }
     
@@ -51,10 +55,72 @@ class Scoreboard {
     {
         var buildClass = `#frame-${frame} .little-square.${side}`;
         document.querySelector(buildClass).innerHTML = value;
+        this.saveScore(frame, value);
     }
 
-    static calculateScore() 
+    static saveScore(frame, value) 
     {
-        
+        let result = '',
+            frameRound = `frame${frame}`;
+
+        if (value === 'X') {
+            value = 10;
+            result = 'strike';
+        } else if (value === '/') {
+            value = 10 - this.frames[`frame${frame}`]['pins'][0];
+            result = 'spare';
+        } else {
+            result = 'pins';
+        }
+
+        if (!checkNested(this.frames, [`frame${frame}`])) {
+            this.frames[`frame${frame}`] = {};
+        }
+        this.frames[frameRound] = Object.assign(this.frames[frameRound], { [result] : [] });
+
+        this.scoreScheduler(frame, value);
+        console.log(this.frames);
+    }
+
+    static scoreScheduler(frame, value) 
+    {    
+        let reduce = (accumulator, currentValue) => accumulator + currentValue;
+
+        for (let i = 1; i <= frame; i++) {
+            let frameRound = `frame${i}`,
+                strike = this.frames[frameRound]['strike'],
+                spare = this.frames[frameRound]['spare'],
+                pins = this.frames[frameRound]['pins'],
+                target = document.querySelector(`#frame-${i} .wide-square`);
+
+            if (target.innerHTML) 
+                continue;
+
+            if (strike) {
+                if (strike.length === 3) {
+                    this.setScore(target, strike.reduce(reduce));
+                } else {
+                    strike.push(value);
+                }
+            } else if (spare) {
+                if (spare.length === 2) {
+                    this.setScore(target, spare.reduce(reduce) + pins[0]);
+                } else {
+                    spare.push(value);
+                }
+            } else {
+                if (pins.length === 2) {
+                    this.setScore(target, pins.reduce(reduce));
+                } else {
+                    pins.push(value);
+                }
+            }
+        }
+    }
+
+    static setScore(target, round) 
+    {
+        this.globalScore = this.globalScore + round;
+        target.innerHTML = this.globalScore;
     }
 }
