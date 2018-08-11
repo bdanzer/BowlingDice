@@ -2,13 +2,18 @@
  * BowlingDiceGame, inits the game
  */
 class BowlingDice {
-    static startGame() 
+    static preGame() 
     {
         Scoreboard.init();
         this.frame = 1;
+    }
+
+    static startGame() 
+    {
+        this.preGame();
         document.getElementById('roll-dice').addEventListener("click", e => { 
             e.preventDefault();
-            if (this.frame < 10 || this.round == 1) {
+            if (this.frame < 10 || this.round == 1 || !this.round) {
                 BowlingDice.setFrame();
                 BowlingDice.setRound();
                 BowlingDice.setDice();
@@ -23,7 +28,6 @@ class BowlingDice {
         if (this.round == 2) {
             this.frame = 1 + this.frame;
         }
-        //document.getElementById('dice-frame').innerHTML = this.frame;
     }
 
     static setRound() 
@@ -33,7 +37,6 @@ class BowlingDice {
         } else if (this.round == 1) {
             this.round = 2;
         } 
-        //document.getElementById('dice-round').innerHTML = this.round;
     }
 
     static setDice() 
@@ -52,7 +55,7 @@ class BowlingDice {
     static shuffle() 
     {
         if (document.getElementsByClassName('dice').length) {
-            BowlingDice.clean();
+            BowlingDice.cleanDice();
         }
         new Strike(this.strike);
         new Spare(this.spare);
@@ -72,7 +75,15 @@ class BowlingDice {
         }
     }
 
-    static clean() 
+    static isTenthFrame() 
+    {
+        if (BowlingDice.frame === 10 && BowlingDice.round === 2) {
+            return true;
+        }
+        return false;
+    }
+
+    static cleanDice() 
     {
         document.getElementById('dice-game').innerHTML = null;
         if (this.round == 1) {
