@@ -8,6 +8,7 @@ a {
 }
 
 body {
+    padding: 160px 0;
     background: #efefef;
 }
 
@@ -22,6 +23,7 @@ body {
     border: .5px solid;
     position: relative;
     display: inline-block;
+    margin-top: 25px;
 }
 .little-square {
     width: 25px;

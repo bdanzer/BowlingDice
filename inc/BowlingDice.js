@@ -5,25 +5,25 @@ class BowlingDice {
     static startGame() 
     {
         Scoreboard.init();
+        this.frame = 1;
         document.getElementById('roll-dice').addEventListener("click", e => { 
             e.preventDefault();
-            BowlingDice.setFrame();
-            BowlingDice.setRound();
-            BowlingDice.setDice();
-            BowlingDice.shuffle();
-            Scoreboard.readPins(this.frame, this.round);
+            if (this.frame < 10 || this.round == 1) {
+                BowlingDice.setFrame();
+                BowlingDice.setRound();
+                BowlingDice.setDice();
+                BowlingDice.shuffle();
+                Scoreboard.readPins(this.frame, this.round);
+            }
         });
     }
 
     static setFrame() 
     {
-        if (!this.round) {
-            this.frame = 1;
-        }
         if (this.round == 2) {
             this.frame = 1 + this.frame;
         }
-        document.getElementById('dice-frame').innerHTML = this.frame;
+        //document.getElementById('dice-frame').innerHTML = this.frame;
     }
 
     static setRound() 
@@ -33,7 +33,7 @@ class BowlingDice {
         } else if (this.round == 1) {
             this.round = 2;
         } 
-        document.getElementById('dice-round').innerHTML = this.round;
+        //document.getElementById('dice-round').innerHTML = this.round;
     }
 
     static setDice() 
@@ -61,10 +61,10 @@ class BowlingDice {
     
     static movePins(pins) 
     {
-        var dice = document.getElementsByClassName('dice');
+        let dice = document.getElementsByClassName('dice');
 
         if (dice.length) {
-            var pen = document.getElementById('pins-pen');
+            let pen = document.getElementById('pins-pen');
             for (let i = pins.length - 1; i >= 0; --i) {
                 pins[i].className = `dice ${pins[i].getAttribute('dice-face')}`;
                 pen.appendChild(pins[i]);

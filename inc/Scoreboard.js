@@ -11,7 +11,7 @@ class Scoreboard {
 
     static generateFrame(iterator) 
     {
-        var html = `
+        let html = `
         <div id="frame-${iterator}" class="square">
             <div class="frames">${iterator}</div>
             <div class="little-square left"></div>
@@ -19,14 +19,14 @@ class Scoreboard {
             <div class="wide-square"></div>
         </div>
         `;
+        let scoreboard = document.getElementById('bowling-score');
         
-        var scoreboard = document.getElementById('bowling-score');
         scoreboard.insertAdjacentHTML('beforeend', html);
     }
 
     static readPins(frame, round) 
     {
-        var faceSpares = document.querySelectorAll('#dice-game .faceSpare'),
+        let faceSpares = document.querySelectorAll('#dice-game .faceSpare'),
             faceStrikes = document.querySelectorAll('#dice-game .faceStrike'),
             faceBlanks = document.querySelectorAll('#dice-game .faceBlank');
 
@@ -53,7 +53,7 @@ class Scoreboard {
 
     static writeScore(frame, value, side) 
     {
-        var buildClass = `#frame-${frame} .little-square.${side}`;
+        let buildClass = `#frame-${frame} .little-square.${side}`;
         document.querySelector(buildClass).innerHTML = value;
         this.saveScore(frame, value);
     }
@@ -67,19 +67,18 @@ class Scoreboard {
             value = 10;
             result = 'strike';
         } else if (value === '/') {
-            value = 10 - this.frames[`frame${frame}`]['pins'][0];
+            value = 10 - this.frames[frameRound]['pins'][0];
             result = 'spare';
         } else {
             result = 'pins';
         }
 
-        if (!checkNested(this.frames, [`frame${frame}`])) {
-            this.frames[`frame${frame}`] = {};
+        if (!checkNested(this.frames, [frameRound])) {
+            this.frames[frameRound] = {};
+            this.frames[frameRound] = Object.assign(this.frames[frameRound], { [result] : [] });
         }
-        this.frames[frameRound] = Object.assign(this.frames[frameRound], { [result] : [] });
 
         this.scoreScheduler(frame, value);
-        console.log(this.frames);
     }
 
     static scoreScheduler(frame, value) 
@@ -112,15 +111,16 @@ class Scoreboard {
                 if (pins.length === 2) {
                     this.setScore(target, pins.reduce(reduce));
                 } else {
+                    console.log(value);
                     pins.push(value);
                 }
             }
         }
     }
 
-    static setScore(target, round) 
+    static setScore(target, score) 
     {
-        this.globalScore = this.globalScore + round;
+        this.globalScore = this.globalScore + score;
         target.innerHTML = this.globalScore;
     }
 }
