@@ -5,6 +5,7 @@ class BowlingDice {
     static preGame() 
     {
         Scoreboard.init();
+        this.gameOver = false;
         this.frame = 1;
     }
 
@@ -13,7 +14,7 @@ class BowlingDice {
         this.preGame();
         document.getElementById('roll-dice').addEventListener("click", e => { 
             e.preventDefault();
-            if (this.frame !== 10) {
+            if (!this.gameOver) {
                 BowlingDice.setFrame();
                 BowlingDice.setRound();
                 BowlingDice.setDice();
@@ -25,6 +26,11 @@ class BowlingDice {
 
     static setFrame() 
     {
+        if (this.round === 2 && this.frame === 9) {
+            this.frame = 10;
+            this.round = 0;
+        }
+
         if (this.round === 2 && this.frame !== 10) {
             this.frame = 1 + this.frame;
         }
@@ -32,11 +38,20 @@ class BowlingDice {
 
     static setRound() 
     {
-        if ((!this.round || this.round === 2)) {
+        if (this.frame === 10) {
+            return this.handleTenthRounds();
+        }
+
+        if (!this.round || this.round === 2) {
             this.round = 1;
         } else if (this.round === 1) {
             this.round = 2;
         } 
+    }
+
+    static handleTenthRounds() 
+    {
+        this.round++;
     }
 
     static setDice() 
@@ -77,7 +92,15 @@ class BowlingDice {
 
     static isTenthFrame() 
     {
-        if (BowlingDice.frame === 10 && BowlingDice.round === 2) {
+        if (BowlingDice.frame === 10) {
+            return true;
+        }
+        return false;
+    }
+
+    static isFinalRound() 
+    {
+        if (BowlingDice.frame === 10 && BowlingDice.round === 3) {
             return true;
         }
         return false;

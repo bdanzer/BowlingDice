@@ -40,20 +40,54 @@ class Scoreboard {
         switch (round) {
             case 1:
                 this.generateFrame(frame);
-                side = 'left';
+                side = this.handle_sides(round);
                 value = this.handle_strikes();
                 break;
             case 2:
-                BowlingDice.movePins(this.faceStrikes);
-                side = 'right';
+                side = this.handle_sides(round);
                 value = this.handle_spares();
                 break;
             case 3:
+                side = this.handle_sides(round);
+                value = this.handle_final_round();
+                BowlingDice.gameOver = true;
                 break;
         }
 
         this.writeScore(frame, value, side);
         this.saveScore(frame, value);
+    }
+
+    static handle_sides(round) 
+    {
+        let side;
+
+        if (BowlingDice.frame === 10) {
+            return this.handle_sides_tenth(round);
+        }
+
+        if (round === 1) {
+            side = 'left';
+        } else if (round === 2) {
+            side = 'right';
+        }
+
+        return side;
+    }
+
+    static handle_sides_tenth(round) 
+    {
+        let side;
+
+        if (round === 1) {
+            side = 'left';
+        } else if (round === 2) {
+            side = 'middle';
+        } else if (round === 3) {
+            side = 'right';
+        }
+
+        return side;
     }
 
     static handle_strikes() 
@@ -64,7 +98,9 @@ class Scoreboard {
 
         if (this.faceStrikes.length) {
             value = 'X';
-            BowlingDice.round++;
+            if (!BowlingDice.isTenthFrame()) {
+                BowlingDice.round++;
+            }
         } else {
             value = this.faceBlanks.length  + this.faceSpares.length;
         }
@@ -73,9 +109,35 @@ class Scoreboard {
     
     static handle_spares() 
     {
-        let value;
+        let value = (BowlingDice.isTenthFrame()) ? document.querySelector('#frame-10 .little-square.left').innerHTML : '';
+
+        if (BowlingDice.isTenthFrame() && this.faceStrikes.length && value === 'X') {
+            BowlingDice.movePins(this.faceSpares);
+
+            return value;
+        }
 
         value = (this.faceSpares.length) ? '/' : this.faceBlanks.length + this.faceStrikes.length;
+        return value;
+    }
+
+    static handle_final_round() 
+    {
+        let value = document.querySelector('#frame-10 .little-square.left').innerHTML;
+
+        switch (value) {
+            case 'X':
+                value = this.handle_strikes();
+                break;
+        
+            case '/':
+                value = this.handle_spares();
+                break;
+
+            default:
+                value = null;
+                break;
+        }
         return value;
     }
 
@@ -136,10 +198,10 @@ class Scoreboard {
     {
         let reduce = (accumulator, currentValue) => accumulator + currentValue;
 
-        if (BowlingDice.isTenthFrame() || (result.length !== numberValidator))
+        if (BowlingDice.isFinalRound() || (result.length !== numberValidator))
             result.push(value);
 
-        if (BowlingDice.isTenthFrame() || (result.length === numberValidator)) {
+        if (BowlingDice.isFinalRound() || (result.length === numberValidator)) {
             this.setScore(target, result.reduce(reduce) + (spare ? spare : 0));
         } 
     }
@@ -148,31 +210,5 @@ class Scoreboard {
     {
         this.globalScore = this.globalScore + score;
         target.innerHTML = this.globalScore;
-    }
-
-    static handleLastFrame() 
-    {
-        let value = document.querySelector('#frame-10 .little-square.left').innerHTML,
-            target = document.querySelector(`#frame-10 .wide-square`);
-        
-        BowlingDice.round = 1;
-
-        switch (BowlingDice.round) {
-            case 1:
-            case 2:
-                if (value === 'X') {
-                    movePins();
-                } else if( value === '/') {
-                    BowlingDice.round++;
-                }
-                break;
-            case 3:
-                break;
-        }
-
-        this.writeScore(10, value, side);
-
-        BowlingDice.setDice();
-        BowlingDice.shuffle();
     }
 }
