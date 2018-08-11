@@ -25,6 +25,19 @@ body {
     display: inline-block;
     margin-top: 25px;
 }
+.frames {
+    position: absolute;
+    top: -25px;
+    background: black;
+    color: white;
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding: 1px 0;
+    border: .5px solid black;
+    left: -.5px;
+}
 .little-square {
     width: 25px;
     height: 25px;
@@ -52,26 +65,15 @@ body {
     justify-content: center;
 }
 
-.frames {
-    position: absolute;
-    top: -25px;
-    background: black;
-    color: white;
-    width: 100%;
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    padding: 1px 0;
-    border: .5px solid black;
-    left: -.5px;
+/**
+* Frame 10 handling
+*/
+div#frame-10 {
+    width: 75px;
 }
-
-h1#message-spot {
-    background: white;
-    padding: 20px 60px;
-    box-shadow: 1px 1px 20px #0000000d;
-    display: inline-block;
-    border: 1px solid black;
+#frame-10 .little-square.middle {
+    background: #e6e6e6;
+    left: 24px;
 }
 
 a.btn {
@@ -81,16 +83,8 @@ a.btn {
     text-decoration: none;
     display: inline-block;
 }
-
 .dice {
     border: 1px solid black;
     max-width: 64px;
     margin: 5px;
-}
-.facePin {
-    border-color: purple;
-}
-.dice-wrap div {
-    float: left;
-    width: 50%;
 }

@@ -11,16 +11,18 @@ class Scoreboard {
 
     static generateFrame(iterator) 
     {
-        let html = `
+        let html = '',
+            scoreboard = document.getElementById('bowling-score');
+
+        html = `
             <div id="frame-${iterator}" class="square">
                 <div class="frames">${iterator}</div>
                 <div class="little-square left"></div>
+                <div class="little-square middle"></div>
                 <div class="little-square right"></div>
                 <div class="wide-square"></div>
             </div>
-        `,
-            scoreboard = document.getElementById('bowling-score');
-        
+        `;
         scoreboard.insertAdjacentHTML('beforeend', html);
     }
 
@@ -35,34 +37,39 @@ class Scoreboard {
         BowlingDice.movePins(faceBlanks);
 
         if (round === 1) {
-            side = 'left';
-
-            if (round !== 10) {
-                this.generateFrame(frame);
-            }
-
+            this.generateFrame(frame);
             BowlingDice.movePins(faceSpares);
+            side = 'left';
             
             if (faceStrikes.length) {
                 value = 'X';
-                if (frame === 10) {
-                    BowlingDice.round = 0;
-                    round = 0;
-                } else {
-                    BowlingDice.round++;
-                }
+                BowlingDice.round++;
             } else {
                 value = faceBlanks.length  + faceSpares.length;
             }
         } else if (round === 2) {
             BowlingDice.movePins(faceStrikes);
             side = 'right';
+            if (round === 2 && frame === 10) {
+                side = 'middle';
+                BowlingDice.round++;
+            }
             if (faceSpares.length) {
                 value = '/';
             } else {
                 value = faceBlanks.length + faceStrikes.length;
             }
+        } else if (round === 3) {
+            side = 'right';
+            if (faceSpares.length) {
+                BowlingDice.round = 'DONE';
+                value = '/';
+            } else {
+                value = faceBlanks.length + faceStrikes.length;
+            }
         }
+
+        console.log(frame, value, side, round);
 
         this.writeScore(frame, value, side);
     }

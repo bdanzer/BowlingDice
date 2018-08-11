@@ -13,7 +13,7 @@ class BowlingDice {
         this.preGame();
         document.getElementById('roll-dice').addEventListener("click", e => { 
             e.preventDefault();
-            if (this.frame < 10 || this.round == 1 || !this.round) {
+            if (this.frame !== 10 || this.round !== 'DONE') {
                 BowlingDice.setFrame();
                 BowlingDice.setRound();
                 BowlingDice.setDice();
@@ -25,23 +25,23 @@ class BowlingDice {
 
     static setFrame() 
     {
-        if (this.round == 2) {
+        if (this.round === 2 && this.frame !== 10) {
             this.frame = 1 + this.frame;
         }
     }
 
     static setRound() 
     {
-        if (!this.round || this.round == 2) {
+        if ((!this.round || this.round === 2)) {
             this.round = 1;
-        } else if (this.round == 1) {
+        } else if (this.round === 1) {
             this.round = 2;
         } 
     }
 
     static setDice() 
     {
-        if (this.round == 1) {
+        if (this.round === 1) {
             this.strike = 3;
             this.spare = 3;
             this.blank = 4;
