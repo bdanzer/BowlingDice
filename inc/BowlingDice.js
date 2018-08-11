@@ -13,7 +13,7 @@ class BowlingDice {
         this.preGame();
         document.getElementById('roll-dice').addEventListener("click", e => { 
             e.preventDefault();
-            if (this.frame !== 10 || this.round !== 'DONE') {
+            if (this.frame !== 10) {
                 BowlingDice.setFrame();
                 BowlingDice.setRound();
                 BowlingDice.setDice();
