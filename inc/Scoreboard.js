@@ -58,6 +58,9 @@ class Scoreboard {
         this.writeScore(frame, value, side);
         this.saveScore(frame, value);
         //console.log(this.frames);
+        if (BowlingDice.isTenthFrame()) {
+            BowlingDice.cleanDice();
+        }
         
     }
 
@@ -110,6 +113,14 @@ class Scoreboard {
     
     static handle_spares() 
     {
+        if (BowlingDice.isTenthFrame()) {
+            BowlingDice.movePins(this.faceSpares)
+            if (this.faceStrikes.length) {
+                return 'X';
+            } else {
+                return this.faceBlanks.length + this.faceSpares.length;
+            }
+        }
         BowlingDice.movePins(this.faceStrikes);
 
         let value = (this.faceSpares.length) ? '/' : this.faceBlanks.length + this.faceStrikes.length;        
