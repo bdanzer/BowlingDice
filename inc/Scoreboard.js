@@ -92,32 +92,24 @@ class Scoreboard {
 
     static handle_strikes() 
     {
-        let value;
-
         BowlingDice.movePins(this.faceSpares);
+
+        let value = this.faceBlanks.length  + this.faceSpares.length;
 
         if (this.faceStrikes.length) {
             value = 'X';
             if (!BowlingDice.isTenthFrame()) {
                 BowlingDice.round++;
             }
-        } else {
-            value = this.faceBlanks.length  + this.faceSpares.length;
         }
         return value;
     }
     
     static handle_spares() 
     {
-        let value = (BowlingDice.isTenthFrame()) ? document.querySelector('#frame-10 .little-square.left').innerHTML : '';
-
-        if (BowlingDice.isTenthFrame() && this.faceStrikes.length && value === 'X') {
-            BowlingDice.movePins(this.faceSpares);
-
-            return value;
-        }
-
-        value = (this.faceSpares.length) ? '/' : this.faceBlanks.length + this.faceStrikes.length;
+        BowlingDice.movePins(this.faceStrikes);
+        
+        let value = (this.faceSpares.length) ? '/' : this.faceBlanks.length + this.faceStrikes.length;        
         return value;
     }
 

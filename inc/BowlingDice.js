@@ -39,7 +39,7 @@ class BowlingDice {
     static setRound() 
     {
         if (this.frame === 10) {
-            return this.handleTenthRounds();
+            return this.round++;
         }
 
         if (!this.round || this.round === 2) {
@@ -47,11 +47,6 @@ class BowlingDice {
         } else if (this.round === 1) {
             this.round = 2;
         } 
-    }
-
-    static handleTenthRounds() 
-    {
-        this.round++;
     }
 
     static setDice() 
