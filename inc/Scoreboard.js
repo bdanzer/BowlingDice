@@ -58,10 +58,6 @@ class Scoreboard {
         this.writeScore(frame, value, side);
         this.saveScore(frame, value);
         //console.log(this.frames);
-        if (BowlingDice.isTenthFrame()) {
-            BowlingDice.cleanDice();
-        }
-        
     }
 
     static handle_sides(round) 
