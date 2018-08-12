@@ -1,6 +1,8 @@
 //BowlingDice.startGame(); 
 
-let count = 1;
+let count = 1,
+    highscore = 0,
+    check = 10000;
 
 BowlingDice.preGame();
 
@@ -12,9 +14,13 @@ while (Scoreboard.globalScore !== 300) {
         BowlingDice.shuffle();
         Scoreboard.readPins(BowlingDice.frame, BowlingDice.round);
     } else {
-        console.log('waiting...');
-        count++;
-        console.log('count ' + count);
+        if (Scoreboard.globalScore === 300) {
+            console.log(count);
+        } else {
+            count++;
+        }
+        
+        //console.log('count ' + count);
 
         // for(let i = 1; i <= 10; i++) {
         //     let target = document.querySelector(`#frame-${i} .wide-square`);
@@ -26,8 +32,18 @@ while (Scoreboard.globalScore !== 300) {
             parent.firstChild.remove();
         }
 
+        if (Scoreboard.globalScore > highscore) {
+            highscore = Scoreboard.globalScore;
+            console.log('New Highscore: ' + highscore + ' on ' + count + ' times');
+        }
+
+        if (count === check) {
+            check += 10000;
+            console.log(count);
+        }
+
         Scoreboard.frames = {};
-        console.log('score: ' + Scoreboard.globalScore);
+        //console.log('Score: ' + Scoreboard.globalScore);
         Scoreboard.globalScore = 0;
         BowlingDice.cleanDice();
         BowlingDice.gameOver = false;
