@@ -23,6 +23,7 @@ class Scoreboard {
                 <div class="wide-square"></div>
             </div>
         `;
+
         scoreboard.insertAdjacentHTML('beforeend', html);
     }
 
