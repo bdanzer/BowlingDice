@@ -47,7 +47,7 @@ class Dice {
 
     render(diceFace) 
     {
-        var html = `<img class="dice class${this.constructor.name} face${diceFace}" dice-face="face${diceFace}" src="./pics/${diceFace}.png">`,
+        var html = `<img class="dice class${this.constructor.name} face${diceFace}" dice-face="face${diceFace}" src="./pics/${diceFace.toLowerCase()}.png">`,
             diceGame = document.getElementById('dice-game');
 
         diceGame.insertAdjacentHTML('beforeend', html);
