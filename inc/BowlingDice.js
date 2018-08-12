@@ -2,6 +2,15 @@
  * BowlingDiceGame, inits the game
  */
 class BowlingDice {
+    static newGame() 
+    {
+        this.cleanDice();
+        //document.querySelector('#bowling-score').innerHTML = null;
+        Scoreboard.globalScore = 0;
+        Scoreboard.frames = {};
+        this.preGame();
+    }
+
     static preGame() 
     {
         Scoreboard.init();

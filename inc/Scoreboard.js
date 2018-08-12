@@ -56,6 +56,8 @@ class Scoreboard {
 
         this.writeScore(frame, value, side);
         this.saveScore(frame, value);
+        //console.log(this.frames);
+        
     }
 
     static handle_sides(round) 
@@ -108,7 +110,7 @@ class Scoreboard {
     static handle_spares() 
     {
         BowlingDice.movePins(this.faceStrikes);
-        
+
         let value = (this.faceSpares.length) ? '/' : this.faceBlanks.length + this.faceStrikes.length;        
         return value;
     }
@@ -127,7 +129,7 @@ class Scoreboard {
                 break;
 
             default:
-                value = null;
+                value = 0;
                 break;
         }
         return value;
@@ -135,8 +137,10 @@ class Scoreboard {
 
     static writeScore(frame, value, side) 
     {
+        //console.log(frame, value, side);
         let buildClass = `#frame-${frame} .little-square.${side}`;
         document.querySelector(buildClass).innerHTML = value;
+        
     }
 
     static saveScore(frame, value) 
@@ -150,7 +154,7 @@ class Scoreboard {
                 result = 'strike';
                 break;
             case '/':
-                value = 10 - this.frames[frameRound]['pins'][0];
+                value = 5;
                 result = 'spare';
                 break;
         }
