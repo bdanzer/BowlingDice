@@ -1,8 +1,7 @@
 //BowlingDice.startGame(); 
 
 let count = 1,
-    highscore = 0,
-    check = 10000;
+    highscore = 0;
 
 BowlingDice.preGame();
 
@@ -19,13 +18,6 @@ while (Scoreboard.globalScore !== 300) {
         } else {
             count++;
         }
-        
-        //console.log('count ' + count);
-
-        // for(let i = 1; i <= 10; i++) {
-        //     let target = document.querySelector(`#frame-${i} .wide-square`);
-        //     target.innerHTML = null;
-        // }
 
         const parent = document.getElementById("bowling-score");
         while (parent.firstChild) {
@@ -37,9 +29,10 @@ while (Scoreboard.globalScore !== 300) {
             console.log('New Highscore: ' + highscore + ' on ' + count + ' times');
         }
 
-        if (count === check) {
-            check += 10000;
-            console.log(count);
+        function hello_world(args, test) {
+            args = [];
+            return test;
+            console.log('lol');
         }
 
         Scoreboard.frames = {};
